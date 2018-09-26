@@ -1,7 +1,7 @@
 #include<iostream>
 #include "tree.h"
 using namespace std;
-
+#include<limits>
 int menu()
 {
     int ope;
@@ -16,7 +16,17 @@ int menu()
     cout<<"7) salir"<<endl;
     cout<<"   ## op: ";
     cin >>ope;
+
+    if (cin.fail())
+    {
+        cout << "Porfavor ingre un numero";
+
+        cin.clear();
+
+        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+    }
     return ope;
+
 
 }
 int main()

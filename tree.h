@@ -20,24 +20,17 @@ class Tree {
             root= nullptr;
             nodes=0;
         };
-        void insertar(Node<T>* &temp,T value)
+        void insertar(T value)
         {
-
-            if(temp==nullptr)
+            Node<T>** temp=buscar(root,value);
+            if((*temp)==nullptr)
             {
-                temp = new Node<T>;
-                temp->data=value;
-                temp->left=nullptr;
-                temp->right=nullptr;
+                (*temp) = new Node<T>;
+                (*temp)->data=value;
+                (*temp)->left=nullptr;
+                (*temp)->right=nullptr;
                 nodes++;
-            }else if(value < temp->data)
-            {
-                insertar(temp->left,value);
-            }else if(value > temp->data)
-            {
-                insertar(temp->right,value);
             }
-
         };
         void enorder(Node<T>* temp)
         {
@@ -75,6 +68,75 @@ class Tree {
             return nodes;
         };
         void clear();
+        Node<T>** buscar(Node<T>* &temp,T eli)
+        {
+            if(temp==nullptr || temp->data==eli)
+            {
+                return &temp;
+            }
+            else if(temp->data>eli)
+            {
+                buscar(temp->left,eli);
+            }
+            else if(root->data<eli)
+            {
+                buscar(temp->right,eli);
+            }
+
+        };
+        void eliminar(T eli)
+        {
+            Node<T>** temp=buscar(root,eli);
+            if((*temp)==nullptr)
+            {
+                cout<<"El valor ingresado no esta en el arbol"<<endl;
+            }else
+            {
+                if((*temp)->right==nullptr && (*temp)->left==nullptr)
+                {
+                    delete (*temp);
+                    (*temp)=nullptr;
+                }
+                else if((*temp)->right==nullptr || (*temp)->left==nullptr)
+                {
+                    if((*temp)->right!=nullptr)
+                    {
+                        Node<T>* te=(*temp)->right;
+                        delete (*temp);
+                        (*temp)=te;
+                    }else
+                    {
+                        Node<T>* te=(*temp)->left;
+                        delete (*temp);
+                        (*temp)=te;
+                    }
+                }
+                else if((*temp)->right!=nullptr && (*temp)->left!=nullptr)
+                {
+
+                    Node<T>* te=(*temp)->right;
+                    if(te->left==nullptr)
+                    {
+                        int a=te->data;
+                        eliminar(a);
+                        (*temp)->data=a;
+
+                    }else
+                    {
+                        while(te->left!=nullptr)
+                        {
+                            te=te->left;
+                        }
+                        int a=te->data;
+                        eliminar(a);
+                        (*temp)->data=a;
+                    }
+
+                }
+
+
+            }
+        };
         Iterator<T> left()
         {
             Iterator<T> te;

@@ -11,7 +11,8 @@ int menu()
     cout<<"2) Imprimir en orden"<<endl;
     cout<<"3) Imprimir en preorder"<<endl;
     cout<<"4) Imprimir en posorder"<<endl;
-    cout<<"5) salir"<<endl;
+    cout<<"5) Eliminar elemento"<<endl;
+    cout<<"6) salir"<<endl;
     cout<<"   ## op: ";
     cin >>ope;
     return ope;
@@ -21,7 +22,7 @@ int main()
 {
     Tree<int> tree;
     int op=2,exit=0;
-    while(exit!=5)
+    while(exit!=6)
     {
 
         if(exit==1)
@@ -30,7 +31,16 @@ int main()
             cout<<endl;
             cout <<"Ingrese el numero: ";
             cin >>a;
-            tree.insertar(tree.root,a);
+            tree.insertar(a);
+        }
+        if(exit==5)
+        {
+            int a;
+            cout<<endl;
+            cout <<"Ingrese elemento a borrar: ";
+            cin >>a;
+            tree.eliminar(a);
+            system("pause");
         }
         system("cls");
         cout<<"------------------------------------------------"<<endl;
@@ -43,6 +53,7 @@ int main()
         if(op==2)tree.enorder(tree.root);
         if(op==3)tree.preorder(tree.root);
         if(op==4)tree.posorder(tree.root);
+
         cout<<endl;
         exit=menu();
     }

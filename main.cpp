@@ -12,7 +12,8 @@ int menu()
     cout<<"3) Imprimir en preorder"<<endl;
     cout<<"4) Imprimir en posorder"<<endl;
     cout<<"5) Eliminar elemento"<<endl;
-    cout<<"6) salir"<<endl;
+    cout<<"6) Peso de un nodo"<<endl;
+    cout<<"7) salir"<<endl;
     cout<<"   ## op: ";
     cin >>ope;
     return ope;
@@ -22,7 +23,7 @@ int main()
 {
     Tree<int> tree;
     int op=2,exit=0;
-    while(exit!=6)
+    while(exit!=7)
     {
 
         if(exit==1)
@@ -40,6 +41,15 @@ int main()
             cout <<"Ingrese elemento a borrar: ";
             cin >>a;
             tree.eliminar(a);
+            system("pause");
+        }
+        if(exit == 6)
+        {
+            int a;
+            cout<<endl;
+            cout <<"Ingrese el nodo: ";
+            cin >>a;
+            cout <<"El peso es : "<< tree.cualquier_nodo(a)<<endl;
             system("pause");
         }
         system("cls");

@@ -63,6 +63,21 @@ class Tree {
 
 
         bool empty();
+        T peso(Node<T>* nodo)
+        {
+            if(nodo!=nullptr)
+            {
+                return (nodo->data + peso(nodo->left) + peso(nodo->right));
+            }else
+            {
+                return 0;
+            }
+
+        }
+        T cualquier_nodo(T nodo)
+        {
+            return (peso(*buscar(root,nodo)));
+        }
         int size()
         {
             return nodes;

@@ -61,8 +61,8 @@ class Tree {
             }
         };
 
+        bool empty(){return root;}
 
-        bool empty();
         T peso(Node<T>* nodo)
         {
             if(nodo!=nullptr)

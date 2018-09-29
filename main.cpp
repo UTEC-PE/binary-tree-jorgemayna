@@ -60,6 +60,9 @@ int main()
             cout <<"Ingrese el nodo: ";
             cin >>a;
             cout <<"El peso es : "<< tree.cualquier_nodo(a)<<endl;
+
+            cout<<endl;
+            cout << tree.empty()<<endl;
             system("pause");
         }
         system("cls");

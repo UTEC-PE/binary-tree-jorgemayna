@@ -82,7 +82,10 @@ class Tree {
         {
             return nodes;
         };
-        void clear();
+        Node<T>* node_root()
+        {
+            return root;
+        }
         Node<T>** buscar(Node<T>* &temp,T eli)
         {
             if(temp==nullptr || temp->data==eli)
@@ -93,7 +96,7 @@ class Tree {
             {
                 buscar(temp->left,eli);
             }
-            else if(root->data<eli)
+            else if(temp->data<eli)
             {
                 buscar(temp->right,eli);
             }
@@ -101,6 +104,7 @@ class Tree {
         };
         void eliminar(T eli)
         {
+
             Node<T>** temp=buscar(root,eli);
             if((*temp)==nullptr)
             {
@@ -128,28 +132,15 @@ class Tree {
                 }
                 else if((*temp)->right!=nullptr && (*temp)->left!=nullptr)
                 {
-
                     Node<T>* te=(*temp)->right;
-                    if(te->left==nullptr)
+                    while(te->left!=nullptr)
                     {
-                        int a=te->data;
-                        eliminar(a);
-                        (*temp)->data=a;
-
-                    }else
-                    {
-                        while(te->left!=nullptr)
-                        {
-                            te=te->left;
-                        }
-                        int a=te->data;
-                        eliminar(a);
-                        (*temp)->data=a;
+                        te=te->left;
                     }
-
+                    int a=te->data;
+                    eliminar(a);
+                    (*temp)->data=a;
                 }
-
-
             }
         };
         Iterator<T> left()
@@ -167,7 +158,6 @@ class Tree {
             te.ins(temp);
             if(temp->right!=nullptr)
             {
-
                 temp=temp->right;
                 while(temp!=nullptr)
                 {

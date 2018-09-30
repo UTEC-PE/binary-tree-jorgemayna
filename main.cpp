@@ -14,6 +14,7 @@ int menu()
     cout<<"5) Eliminar elemento"<<endl;
     cout<<"6) Peso de un nodo"<<endl;
     cout<<"7) salir"<<endl;
+
     cout<<"   ## op: ";
     cin >>ope;
 
@@ -73,9 +74,10 @@ int main()
         if(exit==3)op=3;
         if(exit==4)op=4;
 
-        if(op==2)tree.enorder(tree.root);
-        if(op==3)tree.preorder(tree.root);
-        if(op==4)tree.posorder(tree.root);
+        if(op==2)tree.enorder(tree.node_root());
+
+        if(op==3)tree.preorder(tree.node_root());
+        if(op==4)tree.posorder(tree.node_root());
 
         cout<<endl;
         exit=menu();

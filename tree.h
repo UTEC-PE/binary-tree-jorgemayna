@@ -170,7 +170,8 @@ class Tree {
         };
         Iterator<T> end()
         {
-            Iterator<T> e(nullptr);
+            Node<T>* temp=nullptr;
+            Iterator<T> e(temp);
             return e;
         };
 

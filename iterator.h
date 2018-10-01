@@ -63,16 +63,20 @@ template<typename T> Iterator<T> Iterator<T>::operator++()
 {
     current=pila.top();
     pila.pop();
-    if(current->right!=nullptr)
+    if (current!=nullptr)
     {
-
-        Node<T>* temp=current->right;
-        while(temp!=nullptr)
+        if(current->right!=nullptr)
         {
-            pila.push(temp);
-            temp=temp->left;
+
+            Node<T>* temp=current->right;
+            while(temp!=nullptr)
+            {
+                pila.push(temp);
+                temp=temp->left;
+            }
         }
     }
+
     return *this;
 
 }

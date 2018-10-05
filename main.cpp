@@ -1,110 +1,100 @@
-#include<iostream>
+#include <iostream>
+#include <algorithm>    
+#include <vector>
+#include <random>
+#include <assert.h>
+
 #include "tree.h"
+
 using namespace std;
-#include<limits>
-int menu()
-{
-    int ope;
-    cout<<"------------------------------------------------"<<endl;
-    cout<<"- Elija una opcion:"<<endl;
-    cout<<"1) Inserta nuevo elemento"<<endl;
-    cout<<"2) Imprimir en orden"<<endl;
-    cout<<"3) Imprimir en preorder"<<endl;
-    cout<<"4) Imprimir en posorder"<<endl;
-    cout<<"5) Eliminar elemento"<<endl;
-    cout<<"6) Peso de un nodo"<<endl;
-    cout<<"7) Recorrer con iterador"<<endl;
-    cout<<"8) salir"<<endl;
 
-    cout<<"   ## op: ";
-    cin >>ope;
+#define RANGE_MIN 100
+#define RANGE_MAX 500
+#define MIN_NUMBER 0
+#define MAX_NUMBER 500
 
-    if (cin.fail())
-    {
-        cout << "Porfavor ingre un numero";
+mt19937 rng;
+vector<int> helper;
 
-        cin.clear();
+int generateRandomInt(int min, int max);
+void insertIntoTree(Tree<int> &tester);
+void removeFromTree(Tree<int> &tester);
+void sortAndPruneHelper();
+bool testTreeCompletion(Tree<int>* tester);
+void print(Tree<int>* tester);
 
-        cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+int main(int argc, char *argv[]) {
+    rng.seed(random_device()());
+    cout << "===========================================================" << endl;
+    cout << "\tBinary Tree Practice" << endl;
+    cout << "===========================================================" << endl << endl;
+
+    Tree<int> tester;
+    const int numberOfElements = generateRandomInt(RANGE_MIN, RANGE_MAX);
+    for (int i = 0; i < numberOfElements; i++) {
+        insertIntoTree(tester);
     }
-    return ope;
+    sortAndPruneHelper();
 
+    //assert(tester.peso() == helper.size() && "Something is wrong with the insert or weight method");
 
+    assert(testTreeCompletion(&tester) && "Something is wrong with the insert method or the iterator");
+
+    const int elementsToRemove = generateRandomInt(0, helper.size() - 1);
+    for (int i = 0; i < elementsToRemove; i++) {
+        removeFromTree(tester);
+    }
+
+    assert(testTreeCompletion(&tester) && "Something is wrong with the remove method or the iterator");
+
+    print(&tester);
+
+    return EXIT_SUCCESS;
 }
-int main()
-{
-    Tree<int> tree;
-    int op=2,exit=0;
-    while(exit!=8)
-    {
 
-        if(exit==1)
-        {
-            int a;
-            cout<<endl;
-            cout <<"Ingrese el numero: ";
-            cin >>a;
-            tree.insertar(a);
+int generateRandomInt(int min, int max) {
+    uniform_int_distribution<mt19937::result_type> distribution(min, max);
+    return distribution(rng);
+}
+
+void insertIntoTree(Tree<int> &tester) {
+    const int numberToInsert = generateRandomInt(MIN_NUMBER, MAX_NUMBER);
+    helper.push_back(numberToInsert);
+    tester.insertar(numberToInsert);
+}
+
+void removeFromTree(Tree<int> &tester) {
+    const int positionToRemove = generateRandomInt(0, helper.size() - 1);
+    const int element = helper.at(positionToRemove);
+    helper.erase(helper.begin() + positionToRemove);
+    tester.eliminar(element);
+}
+
+void sortAndPruneHelper() {
+    sort(helper.begin(), helper.end());
+    auto last = std::unique(helper.begin(), helper.end());
+    helper.erase(last, helper.end()); 
+}
+
+bool testTreeCompletion(Tree<int>* tester) {
+    int i = 0;
+    for (Iterator<int> it = tester->left(); it != tester->end(); ++it) {
+        if (*it != helper.at(i)) {
+            return false;
         }
-        if(exit==5)
-        {
-            int a;
-            cout<<endl;
-            cout <<"Ingrese elemento a borrar: ";
-            cin >>a;
-            tree.eliminar(a);
-            system("pause");
-        }
-        if(exit == 6)
-        {
-            int a;
-            cout<<endl;
-            cout <<"Ingrese el nodo: ";
-            cin >>a;
-            cout <<"El peso es : "<< tree.cualquier_nodo(a)<<endl;
-
-            cout<<endl;
-            cout << tree.empty()<<endl;
-            system("pause");
-        }
-        if(exit == 7)
-        {
-            cout<<endl;
-            Iterator<int> it;
-            for(it=tree.left();it!=tree.end();++it)
-            {
-                cout << *it<<" ";
-                system("pause");
-            }
-
-
-        }
-        system("cls");
-        cout<<"------------------------------------------------"<<endl;
-        cout<<"---------   ARBOL BINARIO DE BUSQUEDA  ---------"<<endl;
-        cout<<"------------------------------------------------"<<endl;
-        if(exit==2)op=2;
-        if(exit==3)op=3;
-        if(exit==4)op=4;
-
-        if(op==2)tree.enorder(tree.node_root());
-
-        if(op==3)tree.preorder(tree.node_root());
-        if(op==4)tree.posorder(tree.node_root());
-
-        cout<<endl;
-        exit=menu();
+        i++;
     }
+    return true;
+}
 
-
-    /*Iterator<int> it;
-
-
-    for(it=tree.left();it!=tree.end();++it)
-    {
-        cout << *it<<endl;
+void print(Tree<int>* tester) {
+    for (Iterator<int> it = tester->left(); it != tester->end(); ++it) {
+        cout << *it << " ";
     }
-    */
+    cout << endl << endl;
 
-    return 0;
+    for (int i = 0; i < helper.size(); i++) {
+        cout << helper.at(i) << " ";
+    }
+    cout << endl;
 }

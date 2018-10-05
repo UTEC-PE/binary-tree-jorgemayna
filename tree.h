@@ -63,7 +63,8 @@ class Tree {
 
         bool empty(){return root;}
 
-        T peso(Node<T>* nodo)
+
+        T peso(Node<T>* nodo) // El peso retorna enteros, no es la suma de la data, sino un conteo de nodos
         {
             if(nodo!=nullptr)
             {
@@ -98,7 +99,7 @@ class Tree {
             }
             else if(temp->data<eli)
             {
-                buscar(temp->right,eli);
+                buscar(temp->right,eli); // Tu buscar debería retornar algo, da warning
             }
 
         };
@@ -177,7 +178,7 @@ class Tree {
 
         ~Tree()
         {
-
+                // Falta el destructor
         };
 };
 
